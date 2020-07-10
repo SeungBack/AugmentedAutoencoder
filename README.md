@@ -1,31 +1,14 @@
 ## Augmented Autoencoders  
 
+Modification of "Implicit 3D Orientation Learning for 6D Object Detection from RGB Images" for furniture assembly project
+
 ### Implicit 3D Orientation Learning for 6D Object Detection from RGB Images   
 Martin Sundermeyer, Zoltan-Csaba Marton, Maximilian Durner, Manuel Brucker, Rudolph Triebel  
 Best Paper Award, ECCV 2018.    
 
 [paper](https://arxiv.org/pdf/1902.01275), [supplement](https://static-content.springer.com/esm/chp%3A10.1007%2F978-3-030-01231-1_43/MediaObjects/474211_1_En_43_MOESM1_ESM.pdf), [oral](https://www.youtube.com/watch?v=jgb2eNNlPq4)
 
-### Citation
-If you find Augmented Autoencoders useful for your research, please consider citing:  
-```
-@InProceedings{Sundermeyer_2018_ECCV,
-author = {Sundermeyer, Martin and Marton, Zoltan-Csaba and Durner, Maximilian and Brucker, Manuel and Triebel, Rudolph},
-title = {Implicit 3D Orientation Learning for 6D Object Detection from RGB Images},
-booktitle = {The European Conference on Computer Vision (ECCV)},
-month = {September},
-year = {2018}
-}
-```
-
-### Multi-path Learning for Object Pose Estimation Across Domains
-Martin Sundermeyer, Maximilian Durner, En Yen Puang, Zoltan-Csaba Marton, Narunas Vaskevicius, Kai O. Arras, Rudolph Triebel  
-CVPR 2020  
-The code of this work can be found [here](https://github.com/DLR-RM/AugmentedAutoencoder/tree/multipath)
-
 ## Overview
-
-We propose a real-time RGB-based pipeline for object detection and 6D pose estimation. Our novel 3D orientation estimation is based on a variant of the Denoising Autoencoder that is trained on simulated views of a 3D model using Domain Randomization. This so-called Augmented Autoencoder has several advantages over existing methods: It does not require real, pose-annotated training data, generalizes to various test sensors and inherently handles object and view symmetries.  
 
 <p align="center">
 <img src='docs/pipeline_with_scene_vertical_ext.jpeg' width='600'>
@@ -65,13 +48,6 @@ pip install --user pyassimp==3.3
 pip install --user imgaug
 pip install --user progressbar
 ```
-
-### Headless Rendering
-Please note that we use the GLFW context as default which does not support headless rendering. To allow for both, onscreen rendering & headless rendering on a remote server, set the context to EGL: 
-```
-export PYOPENGL_PLATFORM='egl'
-```
-In order to make the EGL context work, you might need to change PyOpenGL like [here](https://github.com/mcfletch/pyopengl/issues/27)
 
 ## Preparatory Steps
 
@@ -144,26 +120,6 @@ python aae_image.py exp_group/my_autoencoder -f /path/to/image/file/or/folder
 ```bash
 python aae_webcam.py exp_group/my_autoencoder
 ```
-
-### Multi-object RGB-based 6D Object Detection from a Webcam stream
-
-*Option 1: Train a RetinaNet Model from https://github.com/fizyr/keras-retinanet*
-
-adapt $AE_WORKSPACE_PATH/eval_cfg/aae_retina_webcam.cfg
-
-```bash
-python auto_pose/test/aae_retina_webcam_pose.py -test_config aae_retina_webcam.cfg -vis
-```
-
-*Option 2: Using the Google Detection API with Fixes*
-
-Train a 2D detector following https://github.com/naisy/train_ssd_mobilenet  
-adapt /auto_pose/test/googledet_utils/googledet_config.yml  
-
-```bash
-python auto_pose/test/aae_googledet_webcam_multi.py exp_group/my_autoencoder exp_group/my_autoencoder2 exp_group/my_autoencoder3
-```
-
 
 ## Evaluate a model
 
@@ -239,9 +195,9 @@ CLIP_NEAR: 10
 # Far plane
 CLIP_FAR: 10000
 # Number of training images rendered uniformly at random from SO(3)
-NOOF_TRAINING_IMGS: 10000
+NOOF_TRAINING_IMGS: 60000
 # Number of background images that simulate clutter
-NOOF_BG_IMGS: 10000
+NOOF_BG_IMGS: 15000
 
 [Augmentation]
 # Using real object masks for occlusion (not really necessary)
@@ -305,3 +261,17 @@ SAVE_INTERVAL: 5000
 NUM_THREADS: 10
 # preprocessing queue size in number of batches
 QUEUE_SIZE: 50
+
+## Authors
+
+Codes from https://github.com/DLR-RM/AugmentedAutoencoder
+Modificated by
+* **Seunghyeok Back** [seungback](https://github.com/SeungBack)
+
+## License
+
+This project is licensed under the MIT License
+
+## Acknowledgments
+
+This work was supported by Institute for Information & Communications Technology Promotion(IITP) grant funded by Korea goverment(MSIT) (No.2019-0-01335, Development of AI technology to generate and validate the task plan for assembling furniture in the real and virtual environment by understanding the unstructured multi-modal information from the assembly manual.
