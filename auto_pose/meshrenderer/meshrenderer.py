@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 import numpy as np
+import sys
+sys.path.append("/home/demo/Workspace/seung/AugmentedAutoencoder/auto_pose/meshrenderer")
 
 from OpenGL.GL import *
-
-from . import gl_utils as gu
-
-from .pysixd import misc
+import gl_utils as gu 
+from pysixd import misc
 
 class Renderer(object):
 
@@ -17,7 +17,6 @@ class Renderer(object):
     def __init__(self, models_cad_files, samples=1, vertex_tmp_store_folder='.', vertex_scale=1.):
         self._samples = samples
         self._context = gu.OffscreenContext()
-
         # FBO
         W, H = Renderer.MAX_FBO_WIDTH, Renderer.MAX_FBO_HEIGHT
         self._fbo = gu.Framebuffer( { GL_COLOR_ATTACHMENT0: gu.Texture(GL_TEXTURE_2D, 1, GL_RGB8, W, H),
@@ -139,7 +138,6 @@ class Renderer(object):
 
     def render_many(self, obj_ids, W, H, K, Rs, ts, near, far, random_light=False, phong={'ambient':0.4,'diffuse':0.8, 'specular':0.3}):
         assert W <= Renderer.MAX_FBO_WIDTH and H <= Renderer.MAX_FBO_HEIGHT
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glViewport(0, 0, W, H)
 
@@ -158,6 +156,7 @@ class Renderer(object):
             self.set_specular_light(phong['specular'])
 
         bbs = []
+
         for i in range(len(obj_ids)):
             o = obj_ids[i]
             R = Rs[i]
