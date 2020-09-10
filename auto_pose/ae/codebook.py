@@ -43,7 +43,7 @@ class Codebook(object):
             self.embed_obj_bbs_assign_op = tf.assign(self.embed_obj_bbs_var, self.embed_obj_bbs)
             self.embed_obj_bbs_values = None
         
-        self.cos_similarity = tf.matmul(self.normalized_embedding_query, self.embedding_normalized,transpose_b=True)
+        self.cos_similarity = tf.matmul(self.normalized_embedding_query, self.embedding_normalized, transpose_b=True)
         self.nearest_neighbor_idx = tf.argmax(self.cos_similarity, axis=1)
 
 
