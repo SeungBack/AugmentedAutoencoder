@@ -23,7 +23,6 @@ def load_meshes_sixd( obj_files, vertex_tmp_store_folder , recalculate_normals=F
     hashed_file_name = hashlib.md5(md5_string).hexdigest() + '.pickle'
 
     out_file = os.path.join( vertex_tmp_store_folder, hashed_file_name)
-    print(out_file)
     if os.path.exists(out_file):
         loaded_obj = ae_utils.load_pickled_data(out_file)
         return loaded_obj
