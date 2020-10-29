@@ -33,8 +33,8 @@ class MultiQueue(object):
         self.invert = eval(aug_args['invert'])
         self.invert_whole = eval(aug_args['invert_whole'])
         self._random_bg = eval(aug_args['random_bg'])
-        self.occl = eval(aug_args['transparent_shape_occlusion'])
-
+        # self.occl = eval(aug_args['transparent_shape_occlusion'])
+        self.occl = 0.35
 
         print(('zoom_range: ', self.zoom_range))
         print(('g_noise: ', self.g_noise)) 
